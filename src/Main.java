@@ -4,8 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Menus mainMenuObj = new Menus();
-        mainMenuObj.songsMenuDisplayOption();
+       mainMenuSection();
 
     }
     public static void mainMenuSection(){
@@ -26,7 +25,7 @@ public class Main {
         }
         /*Main menu section ends here*/
     }
-    private void playMusic(String filename ){
+    public void playMusic(String filename){
         MP3Player mp3Player = new MP3Player(filename);
         mp3Player.play();
         Scanner sc = new Scanner(System.in);

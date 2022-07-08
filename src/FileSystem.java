@@ -2,23 +2,29 @@ package novarepotential.src;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 public class FileSystem {
-    public void readFile(String filename) {
+    public ArrayList<String> readFile(String filename) {
+        ArrayList<String> listOfSongs = new ArrayList<>();
+        ArrayList<String> songName = new ArrayList<>();
         try {
             File myFileObj = new File(filename);
             Scanner myReadObj = new Scanner(myFileObj);
             int songNum = 0;
-            ArrayList<String> listOfSongs = new ArrayList<>();
             while (myReadObj.hasNextLine()) {
                 String data = myReadObj.nextLine();
                 songNum += 1;
-                System.out.println("[" + songNum + "] " + data);
-                //String[] songs = data.split(",");
                 Collections.addAll(listOfSongs,data);
+            }
+            for(String item : listOfSongs) {
+                String singleSong = item;
+                String[] singleElements = singleSong.split(",");
+                List<String> songList = Arrays.asList(singleElements);
+
+                //System.out.println("Song List "+songList);
+                ArrayList<String> songDetails = new ArrayList<String>(songList);
+                songName.add(songDetails.get(0));
             }
             myReadObj.close();
 
@@ -26,6 +32,6 @@ public class FileSystem {
             System.out.println("An error has occurred while reading a file. " + e);
             e.printStackTrace();
         }
-
+            return songName;
     }
 }
