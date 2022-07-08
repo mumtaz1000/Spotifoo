@@ -11,8 +11,14 @@ public class Menus {
         System.out.println("Choose an option and press enter: ");
     }
     public void songsMenuDisplayOption(){
+        System.out.println("Songs display menu \n");
+        FileSystem fileObj = new FileSystem();
+        fileObj.readFile("C:\\Users\\mumta\\IdeaProjects\\java-8\\src\\novarepotential\\assets\\assets\\data.txt");
 
     }
+
+
+
     public void mainMenu(int input){
         System.out.println("Running menu "+input);
         switch(input){
@@ -36,5 +42,8 @@ public class Menus {
 
 
         }
+    }
+    public void songMenu(){
+
     }
 }
