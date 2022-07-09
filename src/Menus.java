@@ -1,9 +1,11 @@
-package novarepotential.src;
+package spotifoo.src;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menus {
+    public final String txtFilePath = "C:\\Users\\mumta\\IdeaProjects\\java-8\\src\\spotifoo\\assets\\assets\\data.txt";
+    public final String songFilePath = "C:\\Users\\mumta\\IdeaProjects\\java-8\\src\\spotifoo\\assets\\assets\\songs\\";
     public void mainMenuDisplayOption(){
         System.out.println("Main menu options:");
         System.out.println("[1] Songs");
@@ -16,12 +18,13 @@ public class Menus {
     public String songsMenuDisplayOption(){
         Scanner menuOption = new Scanner(System.in);
         System.out.println("Songs display menu");
-        ArrayList<String> songs = new ArrayList<>();
         String choosenSong = new String();
         int num = 0;
         FileSystem fileObj = new FileSystem();
-        songs = fileObj.readFile("C:\\Users\\mumta\\IdeaProjects\\java-8\\src\\novarepotential\\assets\\assets\\data.txt");
-        for(String singleSong: songs){
+        List<String> songs = fileObj.readFile(txtFilePath);
+
+        List<String> song = fileObj.songDetails(songs, 0);
+        for(String singleSong: song){
             num +=1;
             System.out.println("["+num+"] "+singleSong);
         }
@@ -30,7 +33,7 @@ public class Menus {
         try{
             int opt = menuOption.nextInt();
             opt -=1;
-            choosenSong = songs.get(opt);
+            choosenSong = song.get(opt);
             System.out.println("You choose song "+choosenSong);
 
         } catch (Exception e){
@@ -39,7 +42,10 @@ public class Menus {
         return choosenSong.toLowerCase().replace(' ','-');
     }
 
+    public void artistMenuDisplayOption(){
 
+
+    }
 
     public void mainMenu(int input){
         System.out.println("Running menu "+input);
@@ -47,13 +53,12 @@ public class Menus {
             case 1:
                 String songName = songsMenuDisplayOption();
                 Main mainObj = new Main();
-                String filename = "C:\\Users\\mumta\\IdeaProjects\\java-8\\src\\novarepotential\\assets\\assets\\songs\\";
+                String filename = songFilePath;
                 System.out.println("Song to play from menu "+filename.concat(songName).concat(".mp3"));
                 mainObj.playMusic(filename.concat(songName).concat(".mp3"));
-
                 break;
             case 2:
-                System.out.println("Artists");
+                artistMenuDisplayOption();
                 break;
             case 3:
                 System.out.println("Albums");
@@ -70,7 +75,5 @@ public class Menus {
 
         }
     }
-    public void songMenu(){
 
-    }
 }

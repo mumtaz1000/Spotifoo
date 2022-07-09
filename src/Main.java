@@ -1,4 +1,4 @@
-package novarepotential.src;
+package spotifoo.src;
 
 import java.util.Scanner;
 
