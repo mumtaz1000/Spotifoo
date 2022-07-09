@@ -1,5 +1,6 @@
 package spotifoo.src;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -47,7 +48,7 @@ public class Menus {
 
     }
 
-    public void mainMenu(int input){
+    public void mainMenu(int input) throws IOException {
         System.out.println("Running menu "+input);
         switch(input){
             case 1:
