@@ -1,4 +1,4 @@
-package spotifoo.src;
+package Spotifoo.src;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -1,12 +1,20 @@
-package spotifoo.src;
+package Spotifoo.src;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
 public class Menus {
-    public final String txtFilePath = "C:\\Users\\mumta\\IdeaProjects\\java-8\\src\\spotifoo\\assets\\assets\\data.txt";
-    public final String songFilePath = "C:\\Users\\mumta\\IdeaProjects\\java-8\\src\\spotifoo\\assets\\assets\\songs\\";
+
+    public static String filePath (String filename){
+        String file = filename;
+        String path = String.valueOf(Paths.get("src/Spotifoo/assets/assets/", file));
+        System.out.println(path);
+        return path;
+    }
+    public final String txtFilePath = filePath("data.txt");
+    public final String songFilePath = filePath("songs").concat("\\");
     public void mainMenuDisplayOption(){
         System.out.println("Main menu options:");
         System.out.println("[1] Songs");
@@ -14,6 +22,7 @@ public class Menus {
         System.out.println("[3] Albums");
         System.out.println("[4] Genres");
         System.out.println("[5] Search");
+        System.out.println("Press [0] to exit");
         System.out.println("Choose an option and press enter: ");
     }
     public String songsMenuDisplayOption(){
@@ -30,6 +39,7 @@ public class Menus {
             System.out.println("["+num+"] "+singleSong);
         }
         System.out.println("Enter the song number which you want to play.");
+        System.out.println("Press [0] to exit");
         //Taking input from user
         try{
             int opt = menuOption.nextInt();
@@ -43,19 +53,16 @@ public class Menus {
         return choosenSong.toLowerCase().replace(' ','-');
     }
 
-    public void artistMenuDisplayOption(){
-
-
-    }
+    public void artistMenuDisplayOption(){}
 
     public void mainMenu(int input) throws IOException {
-        System.out.println("Running menu "+input);
-        switch(input){
+        while(input != 0){
+        switch(input) {
             case 1:
                 String songName = songsMenuDisplayOption();
                 Main mainObj = new Main();
                 String filename = songFilePath;
-                System.out.println("Song to play from menu "+filename.concat(songName).concat(".mp3"));
+                System.out.println("Song to play from menu " + filename.concat(songName).concat(".mp3"));
                 mainObj.playMusic(filename.concat(songName).concat(".mp3"));
                 break;
             case 2:
@@ -72,8 +79,7 @@ public class Menus {
                 break;
             default:
                 System.out.println("Please enter the number between 0 to 5");
-
-
+            }
         }
     }
 
