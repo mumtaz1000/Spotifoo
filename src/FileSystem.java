@@ -35,6 +35,5 @@ public class FileSystem {
             requiredData.add(listOfString.get(0));
         }
         return requiredData;
-
     }
 }

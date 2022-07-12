@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static Spotifoo.src.Main.displayWarningMsg;
+import static Spotifoo.src.Main.mainMenuSection;
 
 public class Menus {
 
@@ -43,22 +44,27 @@ public class Menus {
     }
     private static String getUserSong(List<String> song){
         String choosenSong = new String();
+        boolean correctSong = false;
         System.out.println("Enter the song number which you want to play.");
         System.out.println("Press [0] to exit");
         //Taking input from user
-        boolean correctSong = false;
-        while( correctSong != true){
-            try{
-                int opt = validateUserInput(1, song.size());
-                opt -= 1;
-                choosenSong = song.get(opt);
-                System.out.println("Song size "+song.size());
-                System.out.println("You choose song " + choosenSong);
-                correctSong = true;
-            } catch (Exception e) {
-                System.out.println(displayWarningMsg("Please enter the valid input to play the song"));
+        while( correctSong != true ) {
+
+                try {
+                    int opt = validateUserInput(0, song.size());
+                    if (opt == 0) {
+                        mainMenuSection();
+                    } else {
+                    opt -= 1;
+                    choosenSong = song.get(opt);
+                    System.out.println("Song size " + song.size());
+                    System.out.println("You choose song " + choosenSong);
+                    correctSong = true;}
+                } catch (Exception e) {
+                    System.out.println(displayWarningMsg("Please enter the valid input to play the song "));
+                }
             }
-        }
+
         return choosenSong.toLowerCase().replace(' ','-');
     }
     public void artistMenuDisplayOption(){
@@ -99,13 +105,15 @@ public class Menus {
         int input = 0;
         while (correctInput != true){
             input = menuOption.nextInt();
-                if(input >= minUserInput && input <= maxUserInput)
-                {System.out.println(input);
+            if(input == 0){break;}
+            else {
+                if (input >= minUserInput && input <= maxUserInput) {
+                    System.out.println(input);
                     correctInput = true;
+                } else {
+                    System.out.println(displayWarningMsg("Please enter the number between " + minUserInput + " to " + maxUserInput));
                 }
-                else {
-                    System.out.println(displayWarningMsg("Please enter the number between "+minUserInput+" to "+maxUserInput));
-                }
+            }
         }
         return input;
     }

@@ -2,7 +2,6 @@ package Spotifoo.src;
 
 import java.awt.*;
 import java.io.File;
-import java.util.Scanner;
 
 import static Spotifoo.src.Menus.validateUserInput;
 public class Main {
@@ -14,23 +13,20 @@ public class Main {
     public static void mainMenuSection(){
         /*Main menu section starts here*/
         Menus mainMenuObj = new Menus();
-        Scanner menuOption = new Scanner(System.in);
-
+        boolean correctInput = false;
         //This function call is made to display main menu to user
         mainMenuObj.mainMenuDisplayOption();
+    while(correctInput != true){
+            try{
+                int opt = validateUserInput(1,5);
+                mainMenuObj.mainMenu(opt);
+                correctInput = true;
+            }
+            catch(Exception e){
+                System.out.println(displayWarningMsg("Please enter the valid input"));
+            }
+}
 
-        //Taking input from user
-        /*
-
-        */
-        try{
-            int opt = validateUserInput(1,5);
-            mainMenuObj.mainMenu(opt);
-        }
-        catch(Exception e){
-            System.out.println(displayWarningMsg("Please enter the valid input"));
-            mainMenuSection();
-        }
 
         /*Main menu section ends here*/
     }
@@ -46,8 +42,7 @@ public class Main {
     public static String displayWarningMsg(String inputMsg){
         String warningTextColor = "\u001B[41m";
         String ANSI_RESET = "\u001B[0m";
-        String warningMsg = warningTextColor+inputMsg+ANSI_RESET ;
-        return warningMsg;
+        return (warningTextColor+inputMsg+ANSI_RESET) ;
     }
 
 }
