@@ -105,9 +105,10 @@ public class Menus {
         int input = 0;
         while (correctInput != true){
             input = menuOption.nextInt();
-            if(input == 0){break;}
-            else {
-                if (input >= minUserInput && input <= maxUserInput) {
+            if(input == 0){
+                mainMenuSection();
+            } else {
+                if (input > minUserInput && input <= maxUserInput) {
                     System.out.println(input);
                     correctInput = true;
                 } else {

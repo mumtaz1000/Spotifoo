@@ -17,14 +17,19 @@ public class Main {
         //This function call is made to display main menu to user
         mainMenuObj.mainMenuDisplayOption();
     while(correctInput != true){
-            try{
-                int opt = validateUserInput(1,5);
-                mainMenuObj.mainMenu(opt);
-                correctInput = true;
-            }
-            catch(Exception e){
+            try {
+                int opt = validateUserInput(0, 5);
+                if(opt == 0)
+                {break;} else
+                {
+                    mainMenuObj.mainMenu(opt);
+                    correctInput = true;
+                }
+
+            } catch (Exception e) {
                 System.out.println(displayWarningMsg("Please enter the valid input"));
             }
+
 }
 
 
