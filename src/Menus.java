@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static Spotifoo.src.Main.displayWarningMsg;
+import static Spotifoo.src.Main.mainMenuSection;
 
 public class Menus {
 
@@ -14,7 +15,7 @@ public class Menus {
         String path = String.valueOf(Paths.get("src/Spotifoo/assets/assets/", file));
         return path;
     }
-    public final String txtFilePath = filePath("data.txt");
+    public static final String txtFilePath = filePath("data.txt");
     public final String songFilePath = filePath("songs").concat("\\");
     public void mainMenuDisplayOption(){
         System.out.println("Main menu options:");
@@ -26,8 +27,7 @@ public class Menus {
         System.out.println("Press [0] to exit");
         System.out.println("Choose an option and press enter: ");
     }
-    public String songsMenuDisplayOption(){
-        Scanner menuOption = new Scanner(System.in);
+    public static String songsMenuDisplayOption(){
         System.out.println("Songs display menu");
         String choosenSong = new String();
         int num = 0;
@@ -39,38 +39,46 @@ public class Menus {
             num +=1;
             System.out.println("["+num+"] "+singleSong);
         }
+        String userSong = getUserSong(choosenSong, song);
+        return userSong;
+    }
+    private static String getUserSong(String choosenSong, List<String> song){
+
+        Scanner menuOption = new Scanner(System.in);
         System.out.println("Enter the song number which you want to play.");
         System.out.println("Press [0] to exit");
         //Taking input from user
-            try {
-                int opt = menuOption.nextInt();
+        int opt = menuOption.nextInt();
+        try{
+        if(opt > 0 && opt <= song.size()){
                 opt -= 1;
                 choosenSong = song.get(opt);
-                System.out.println("You choose song " + choosenSong);
+            System.out.println("Song size "+song.size());
+            System.out.println("You choose song " + choosenSong);
+        } else {
+            System.out.println(displayWarningMsg("Please enter between 1 to "+song.size()+" to play ."));
+        }
             } catch (Exception e) {
                 System.out.println(displayWarningMsg("Please enter the valid input to play the song"));
-                songsMenuDisplayOption();
+
             }
 
         return choosenSong.toLowerCase().replace(' ','-');
     }
-
     public void artistMenuDisplayOption(){
         System.out.println("This program is for displaying artist names");
     }
 
     public void mainMenu(int input) throws IOException {
-
         switch(input) {
             case 0:
                 break;
             case 1:
                 String songName = songsMenuDisplayOption();
-                if(songName.length() != 0)
-                {Main mainObj = new Main();
+                Main mainObj = new Main();
                 String filename = songFilePath;
                 System.out.println("Song to play from menu " + filename.concat(songName).concat(".mp3"));
-                mainObj.playMusic(filename.concat(songName).concat(".mp3"));}
+                mainObj.playMusic(filename.concat(songName).concat(".mp3"));
                 break;
             case 2:
                 artistMenuDisplayOption();
@@ -87,8 +95,18 @@ public class Menus {
             default:
                 System.out.println("Please enter the number between 0 to 5");
                 break;
-
         }
     }
-
+    public static int validateUserInput(int minUserInput,int maxUserInput, int exitInput){
+        Scanner menuOption = new Scanner(System.in);
+        int input = 0;
+                input = menuOption.nextInt();
+                if(input >= minUserInput && input <= maxUserInput)
+                {System.out.println(input);}
+                else {
+                    System.out.println(displayWarningMsg("Please enter the number between "+minUserInput+" to "+maxUserInput));
+                    mainMenuSection();
+                }
+        return input;
+    }
 }

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.File;
 import java.util.Scanner;
 
+import static Spotifoo.src.Menus.validateUserInput;
 public class Main {
 
     public static void main(String[] args) {
@@ -19,21 +20,18 @@ public class Main {
         mainMenuObj.mainMenuDisplayOption();
 
         //Taking input from user
-        int opt = 1;
-        while( opt != 0) {
+        /*
+
+        */
         try{
-            opt = menuOption.nextInt();
-            if(opt > 0 && opt < 6)
-            {System.out.println(opt);
-            mainMenuObj.mainMenu(opt);}
-            else {
-                System.out.println(displayWarningMsg("Please enter the number between 0 to 5"));
-                mainMenuSection();
-            }
-        } catch (Exception e){
+            int opt = validateUserInput(1,5,0);
+            mainMenuObj.mainMenu(opt);
+        }
+        catch(Exception e){
             System.out.println(displayWarningMsg("Please enter the valid input"));
             mainMenuSection();
-        }}
+        }
+
         /*Main menu section ends here*/
     }
     public void playMusic(String filename){
