@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import static Spotifoo.src.Main.displayWarningMsg;
-import static Spotifoo.src.Main.mainMenuSection;
 
 public class Menus {
 
@@ -29,7 +28,7 @@ public class Menus {
     }
     public static String songsMenuDisplayOption(){
         System.out.println("Songs display menu");
-        String choosenSong = new String();
+
         int num = 0;
         FileSystem fileObj = new FileSystem();
         List<String> songs = fileObj.readFile(txtFilePath);
@@ -39,30 +38,27 @@ public class Menus {
             num +=1;
             System.out.println("["+num+"] "+singleSong);
         }
-        String userSong = getUserSong(choosenSong, song);
+        String userSong = getUserSong(song);
         return userSong;
     }
-    private static String getUserSong(String choosenSong, List<String> song){
-
-        Scanner menuOption = new Scanner(System.in);
+    private static String getUserSong(List<String> song){
+        String choosenSong = new String();
         System.out.println("Enter the song number which you want to play.");
         System.out.println("Press [0] to exit");
         //Taking input from user
-        int opt = menuOption.nextInt();
-        try{
-        if(opt > 0 && opt <= song.size()){
+        boolean correctSong = false;
+        while( correctSong != true){
+            try{
+                int opt = validateUserInput(1, song.size());
                 opt -= 1;
                 choosenSong = song.get(opt);
-            System.out.println("Song size "+song.size());
-            System.out.println("You choose song " + choosenSong);
-        } else {
-            System.out.println(displayWarningMsg("Please enter between 1 to "+song.size()+" to play ."));
-        }
+                System.out.println("Song size "+song.size());
+                System.out.println("You choose song " + choosenSong);
+                correctSong = true;
             } catch (Exception e) {
                 System.out.println(displayWarningMsg("Please enter the valid input to play the song"));
-
             }
-
+        }
         return choosenSong.toLowerCase().replace(' ','-');
     }
     public void artistMenuDisplayOption(){
@@ -97,16 +93,20 @@ public class Menus {
                 break;
         }
     }
-    public static int validateUserInput(int minUserInput,int maxUserInput, int exitInput){
+    public static int validateUserInput(int minUserInput,int maxUserInput){
         Scanner menuOption = new Scanner(System.in);
+        boolean correctInput = false;
         int input = 0;
-                input = menuOption.nextInt();
+        while (correctInput != true){
+            input = menuOption.nextInt();
                 if(input >= minUserInput && input <= maxUserInput)
-                {System.out.println(input);}
+                {System.out.println(input);
+                    correctInput = true;
+                }
                 else {
                     System.out.println(displayWarningMsg("Please enter the number between "+minUserInput+" to "+maxUserInput));
-                    mainMenuSection();
                 }
+        }
         return input;
     }
 }

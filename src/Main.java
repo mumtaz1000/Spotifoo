@@ -24,7 +24,7 @@ public class Main {
 
         */
         try{
-            int opt = validateUserInput(1,5,0);
+            int opt = validateUserInput(1,5);
             mainMenuObj.mainMenu(opt);
         }
         catch(Exception e){
