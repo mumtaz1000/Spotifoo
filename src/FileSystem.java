@@ -28,7 +28,6 @@ public class FileSystem {
     public List songDetails(List<String> listOfSongs, int option){
         List<String> requiredData = new ArrayList<>();
         for (String song: listOfSongs) {
-            System.out.println("List of songs ");
             String[] elements = song.split(",");
             List<String> fixedLengthList = Arrays.asList(elements);
             ArrayList<String> listOfString = new ArrayList<String>(fixedLengthList);
