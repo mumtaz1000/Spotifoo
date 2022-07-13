@@ -1,8 +1,4 @@
 package Spotifoo.src;
-
-import java.awt.*;
-import java.io.File;
-
 import static Spotifoo.src.Menus.validateUserInput;
 public class Main {
 
@@ -16,7 +12,7 @@ public class Main {
         boolean correctInput = false;
         //This function call is made to display main menu to user
         mainMenuObj.mainMenuDisplayOption();
-    while(correctInput != true){
+    while(!correctInput){
             try {
                 int opt = validateUserInput(0, 5);
                 if(opt == 0)
@@ -30,21 +26,10 @@ public class Main {
                 System.out.println(displayWarningMsg("Please enter the valid input"));
             }
 
-}
-
-
-        /*Main menu section ends here*/
+}/*Main menu section ends here*/
     }
-    public void playMusic(String filename){
-            try{
-                Desktop d = Desktop.getDesktop();
-                d.open(new File(filename));
-            }
-            catch(Exception e){
-                System.out.println(displayWarningMsg("Cannot play mp3 file."));
-            }
-    }
-    public static String displayWarningMsg(String inputMsg){
+
+    protected static String displayWarningMsg(String inputMsg){
         String warningTextColor = "\u001B[41m";
         String ANSI_RESET = "\u001B[0m";
         return (warningTextColor+inputMsg+ANSI_RESET) ;
