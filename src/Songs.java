@@ -2,31 +2,31 @@ package Spotifoo.src;
 
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.*;
 
 import static Spotifoo.src.FileSystem.readFile;
-import static Spotifoo.src.Main.*;
+import static Spotifoo.src.Main.displayWarningMsg;
+import static Spotifoo.src.Main.mainMenuSection;
 import static Spotifoo.src.Menus.*;
+import static Spotifoo.src.User.validateUserInput;
+
 
 public class Songs {
     private static final List<String> songs = readFile(txtFilePath);
-    private static final List<String> song = songDetails(songs, 0);
+    protected final List<String> song = songDetails(songs, 0);
     protected static void songMenuOption(){
         List<String> songToPlay = songsMenuDisplayOption();
         String filename = songFilePath.concat(songToPlay.get(1));
         System.out.println("Song to play from menu " + filename);
         playMusic(songToPlay);
     }
-    protected static void displayIndividualSongName(){
+    protected static void displayIndividualSongElement(List<String> list){
         int num = 0;
-        for(String singleSong: song){
+        for(String singleSong: list){
             num +=1;
             System.out.println("["+num+"] "+singleSong);
         }
-        System.out.println("Enter the song number which you want to play.");
-        System.out.println("Press [0] to exit");
     }
     protected static List songDetails(List<String> listOfSongs, int option){
         List<String> requiredData = new ArrayList<>();
@@ -41,18 +41,21 @@ public class Songs {
     }
     protected static List<String> getSongToPlay(){
         List<String> songToPlay = new ArrayList<>();
-        List<String> songFile = songDetails(songs,4);
-        List<String> songImg = songDetails(songs, 5);
+        List<String> songFile = new ArrayList<>();
+        songFile = songDetails(songs,4);
+        List<String> songImg = new ArrayList<>();
+        songImg = songDetails(songs, 5);
+        Songs songObj = new Songs();
         boolean correctSong = false;
         //Taking input from user
         while( !correctSong ) {
             try {
-                int opt = validateUserInput(0, song.size());
+                int opt = validateUserInput(0, songObj.song.size());
                 if (opt == 0) {
                     mainMenuSection();
                 } else {
                     opt -= 1;
-                    songToPlay.add(song.get(opt));
+                    songToPlay.add(songObj.song.get(opt));
                     songToPlay.add(songFile.get(opt));
                     songToPlay.add(songImg.get(opt));
                     System.out.println("You choose song " + songToPlay.get(0));
@@ -73,5 +76,25 @@ public class Songs {
         catch(Exception e){
             System.out.println(displayWarningMsg("Error while playing mp3 file "+e));
         }
+    }
+    protected static void displayArtistName(){
+        List<String> artistName = new ArrayList<>();
+        artistName = songDetails(songs,1);
+        Collections.sort(artistName);
+        Set<String> artists = new LinkedHashSet<>();
+        int num = 0;
+        for (String name: artistName) {
+            artists.add(name);
+        }
+        for (String name: artists) {
+            num +=1;
+            System.out.println("["+num+"]"+" "+name);
+        }
+    }
+    protected static void displayIndividualAlbumName(){
+        System.out.println("Albums");
+    }
+    protected static void displayIndividualGenre(){
+        System.out.println("Genres");
     }
 }

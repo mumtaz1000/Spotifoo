@@ -2,9 +2,7 @@ package Spotifoo.src;
 
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
 
-import static Spotifoo.src.Main.*;
 import static Spotifoo.src.Songs.*;
 
 public class Menus {
@@ -27,14 +25,17 @@ public class Menus {
     }
     protected static List<String> songsMenuDisplayOption(){
         System.out.println("Songs display menu");
-        displayIndividualSongName();
+        Songs songObj = new Songs();
+        displayIndividualSongElement(songObj.song);
+        System.out.println("Enter the song number which you want to play.");
+        System.out.println("Press [0] to exit");
         //Taking input from user
         return getSongToPlay();
     }
 
     public void artistMenuDisplayOption(){
-
         System.out.println("This program is for displaying artist names");
+        displayArtistName();
     }
 
     public void mainMenu(int input){
@@ -48,10 +49,10 @@ public class Menus {
                 artistMenuDisplayOption();
                 break;
             case 3:
-                System.out.println("Albums");
+                displayIndividualAlbumName();
                 break;
             case 4:
-                System.out.println("Genres");
+                displayIndividualGenre();
                 break;
             case 5:
                 System.out.println("Search");
@@ -61,23 +62,5 @@ public class Menus {
                 break;
         }
     }
-    public static int validateUserInput(int minUserInput,int maxUserInput){
-        Scanner menuOption = new Scanner(System.in);
-        boolean correctInput = false;
-        int input = 0;
-        while (!correctInput){
-            input = menuOption.nextInt();
-            if(input == 0){
-                mainMenuSection();
-            } else {
-                if (input > minUserInput && input <= maxUserInput) {
-                    System.out.println(input);
-                    correctInput = true;
-                } else {
-                    System.out.println(displayWarningMsg("Please enter the number between " + minUserInput + " to " + maxUserInput));
-                }
-            }
-        }
-        return input;
-    }
+
 }

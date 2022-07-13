@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class FileSystem {
-    public static List<String> readFile(String filename) {
+    protected static List<String> readFile(String filename) {
         ArrayList<String> listOfSongs = new ArrayList<>();
 
         try {

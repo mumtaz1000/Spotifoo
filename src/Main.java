@@ -1,12 +1,11 @@
 package Spotifoo.src;
-import static Spotifoo.src.Menus.validateUserInput;
+import static Spotifoo.src.User.validateUserInput;
 public class Main {
 
     public static void main(String[] args) {
        mainMenuSection();
-
     }
-    public static void mainMenuSection(){
+    protected static void mainMenuSection(){
         /*Main menu section starts here*/
         Menus mainMenuObj = new Menus();
         boolean correctInput = false;
@@ -21,7 +20,6 @@ public class Main {
                     mainMenuObj.mainMenu(opt);
                     correctInput = true;
                 }
-
             } catch (Exception e) {
                 System.out.println(displayWarningMsg("Please enter the valid input"));
             }
