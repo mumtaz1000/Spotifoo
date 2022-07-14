@@ -13,8 +13,8 @@ import static Spotifoo.src.User.validateUserInput;
 
 
 public class Songs {
-    private final List<String> songs = readFile(txtFilePath);
-    protected final List<String> song = songDetails(songs, 0);
+    protected final List<String> songsAll = readFile(txtFilePath);
+    protected final List<String> songsNames = songDetails(songsAll, 0);
     protected static void songMenuOption(){
         List<String> songToPlay = songsMenuDisplayOption();
         String filename = songFilePath.concat(songToPlay.get(1));
@@ -38,23 +38,18 @@ public class Songs {
         }
         return requiredData;
     }
-    protected static List<String> getSongToPlay(){
+    protected static List<String> getSongToPlay(List<String> songsList,List<String> songFile, List<String> songImg){
         List<String> songToPlay = new ArrayList<>();
-        List<String> songFile = new ArrayList<>();
-        Songs songObj = new Songs();
-        songFile = songDetails(songObj.songs,4);
-        List<String> songImg = new ArrayList<>();
-        songImg = songDetails(songObj.songs, 5);
         boolean correctSong = false;
         //Taking input from user
         while( !correctSong ) {
             try {
-                int opt = validateUserInput(0, songObj.song.size());
+                int opt = validateUserInput(0, songsList.size());
                 if (opt == 0) {
                     mainMenuSection();
                 } else {
                     opt -= 1;
-                    songToPlay.add(songObj.song.get(opt));
+                    songToPlay.add(songsList.get(opt));
                     songToPlay.add(songFile.get(opt));
                     songToPlay.add(songImg.get(opt));
                     System.out.println("You choose song " + songToPlay.get(0));
@@ -65,6 +60,7 @@ public class Songs {
         }
         return songToPlay;
     }
+
     protected static void playMusic(List<String> songToPlay){
         try{
             Desktop d = Desktop.getDesktop();
@@ -79,9 +75,12 @@ public class Songs {
     protected static void displayArtistName(){
         Songs songObj = new Songs();
         List<String> artistName = new ArrayList<>();
-        artistName = songDetails(songObj.songs,1);
+        artistName = songDetails(songObj.songsAll,1);
         Collections.sort(artistName);
         List<String> artists = new ArrayList<>();
+        List<String> artistsSongsList = new ArrayList<>();
+        List<String> songFile = new ArrayList<>();
+        List<String> songImg = new ArrayList<>();
         int num = 0;
         for (String name: artistName) {
             if(!artists.contains(name)){
@@ -103,11 +102,25 @@ public class Songs {
                 } else {
                     opt -= 1;
                     System.out.println("You choose artist " + artists.get(opt));
+                    int songNum = 0;
+                    for (String songName : songObj.songsAll) {
+                        if(songName.contains(artists.get(opt))){
+                            songNum += 1;
+                            artistsSongsList.add(songName);
+                            System.out.println("["+songNum+"] "+songDetails(Collections.singletonList(songName),0));
+                            //System.out.println("Song info "+artistsSongsList.get(songNum-1));
+                        }
+                    }
+                    System.out.println("Choose the song to play ");
+                    songFile = songDetails(artistsSongsList,4);
+                    songImg = songDetails(artistsSongsList, 5);
+                    playMusic(getSongToPlay(artistsSongsList,songFile, songImg));
                     correct = true;}
             } catch (Exception e) {
                 System.out.println(displayWarningMsg("Please enter the valid input to play the song "));
             }
         }
+
     }
     protected static void displayIndividualAlbumName(){
         System.out.println("Albums");

@@ -1,6 +1,7 @@
 package Spotifoo.src;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import static Spotifoo.src.Songs.*;
@@ -26,11 +27,14 @@ public class Menus {
     protected static List<String> songsMenuDisplayOption(){
         System.out.println("Songs display menu");
         Songs songObj = new Songs();
-        displayIndividualSongElement(songObj.song);
+        displayIndividualSongElement(songObj.songsNames);
         System.out.println("Enter the song number which you want to play.");
         System.out.println("Press [0] to exit");
-        //Taking input from user
-        return getSongToPlay();
+        List<String> songFile = new ArrayList<>();
+        songFile = songDetails(songObj.songsAll,4);
+        List<String> songImg = new ArrayList<>();
+        songImg = songDetails(songObj.songsAll, 5);
+        return getSongToPlay(songObj.songsNames,songFile,songImg);
     }
 
     public void artistMenuDisplayOption(){
