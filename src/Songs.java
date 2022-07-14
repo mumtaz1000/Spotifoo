@@ -13,7 +13,7 @@ import static Spotifoo.src.User.validateUserInput;
 
 
 public class Songs {
-    private static final List<String> songs = readFile(txtFilePath);
+    private final List<String> songs = readFile(txtFilePath);
     protected final List<String> song = songDetails(songs, 0);
     protected static void songMenuOption(){
         List<String> songToPlay = songsMenuDisplayOption();
@@ -34,7 +34,6 @@ public class Songs {
             String[] elements = song.split(",");
             List<String> fixedLengthList = Arrays.asList(elements);
             ArrayList<String> listOfString = new ArrayList<>(fixedLengthList);
-            // System.out.println("Song details separated by commas "+listOfString.get(0));
             requiredData.add(listOfString.get(option));
         }
         return requiredData;
@@ -42,10 +41,10 @@ public class Songs {
     protected static List<String> getSongToPlay(){
         List<String> songToPlay = new ArrayList<>();
         List<String> songFile = new ArrayList<>();
-        songFile = songDetails(songs,4);
-        List<String> songImg = new ArrayList<>();
-        songImg = songDetails(songs, 5);
         Songs songObj = new Songs();
+        songFile = songDetails(songObj.songs,4);
+        List<String> songImg = new ArrayList<>();
+        songImg = songDetails(songObj.songs, 5);
         boolean correctSong = false;
         //Taking input from user
         while( !correctSong ) {
@@ -78,17 +77,36 @@ public class Songs {
         }
     }
     protected static void displayArtistName(){
+        Songs songObj = new Songs();
         List<String> artistName = new ArrayList<>();
-        artistName = songDetails(songs,1);
+        artistName = songDetails(songObj.songs,1);
         Collections.sort(artistName);
-        Set<String> artists = new LinkedHashSet<>();
+        List<String> artists = new ArrayList<>();
         int num = 0;
         for (String name: artistName) {
-            artists.add(name);
+            if(!artists.contains(name)){
+                artists.add(name);
+            }
         }
         for (String name: artists) {
             num +=1;
             System.out.println("["+num+"]"+" "+name);
+        }
+        System.out.println("Choose the artist ");
+        boolean correct = false;
+        //Taking input from user
+        while( !correct ) {
+            try {
+                int opt = validateUserInput(0, artists.size());
+                if (opt == 0) {
+                    mainMenuSection();
+                } else {
+                    opt -= 1;
+                    System.out.println("You choose artist " + artists.get(opt));
+                    correct = true;}
+            } catch (Exception e) {
+                System.out.println(displayWarningMsg("Please enter the valid input to play the song "));
+            }
         }
     }
     protected static void displayIndividualAlbumName(){
@@ -97,4 +115,6 @@ public class Songs {
     protected static void displayIndividualGenre(){
         System.out.println("Genres");
     }
+
+
 }
