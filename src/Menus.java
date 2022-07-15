@@ -21,7 +21,7 @@ public class Menus {
         System.out.println("[3] Albums");
         System.out.println("[4] Genres");
         System.out.println("[5] Search");
-        System.out.println("Press [0] to exit");
+        //System.out.println("Press [0] to exit");
         System.out.println("Choose an option and press enter: ");
     }
     protected static List<String> songsMenuDisplayOption(){

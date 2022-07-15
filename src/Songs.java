@@ -28,7 +28,7 @@ public class Songs {
             System.out.println("["+num+"] "+singleSong);
         }
     }
-    protected static List songDetails(List<String> listOfSongs, int option){
+    protected static List<String> songDetails(List<String> listOfSongs, int option){
         List<String> requiredData = new ArrayList<>();
         for (String song: listOfSongs) {
             String[] elements = song.split(",");
@@ -67,6 +67,7 @@ public class Songs {
             d.open(new File(songFilePath.concat(songToPlay.get(1))));
             System.out.println("Song file path "+songFilePath.concat(songToPlay.get(2)));
             d.open(new File(songImagePath.concat(songToPlay.get(2))));
+            System.out.println("Press 0 to go back to main menu.");
         }
         catch(Exception e){
             System.out.println(displayWarningMsg("Error while playing mp3 file "+e));
@@ -74,55 +75,73 @@ public class Songs {
     }
     protected static void displayArtistName(){
         Songs songObj = new Songs();
-        List<String> artistName = new ArrayList<>();
+        List<String> artistName;
         artistName = songDetails(songObj.songsAll,1);
         Collections.sort(artistName);
-        List<String> artists = new ArrayList<>();
-        List<String> artistsSongsList = new ArrayList<>();
-        List<String> songFile = new ArrayList<>();
-        List<String> songImg = new ArrayList<>();
+        List<String> artists;
+        artists = displayArtistsOrAlbums(artistName);
+        System.out.println("Choose the artist ");
+        //Taking input from user
+        takingArtistOrAlbumNameAsUserInput(artists);
+    }
+    private static List<String> displayArtistsOrAlbums(List<String> displayName){
+        Collections.sort(displayName);
+        List<String> requiredList = new ArrayList<>();
         int num = 0;
-        for (String name: artistName) {
-            if(!artists.contains(name)){
-                artists.add(name);
+        for (String name: displayName) {
+            if(!requiredList.contains(name)){
+                requiredList.add(name);
             }
         }
-        for (String name: artists) {
+        for (String name: requiredList) {
             num +=1;
             System.out.println("["+num+"]"+" "+name);
         }
-        System.out.println("Choose the artist ");
+        return requiredList;
+    }
+    private static void takingArtistOrAlbumNameAsUserInput(List<String> inputList){
+        Songs songObj = new Songs();
+        List<String> requiredOutputList = new ArrayList<>();
+        List<String> songFile;
+        List<String> songImg;
         boolean correct = false;
-        //Taking input from user
         while( !correct ) {
             try {
-                int opt = validateUserInput(0, artists.size());
+                int opt = validateUserInput(0, inputList.size());
                 if (opt == 0) {
                     mainMenuSection();
                 } else {
                     opt -= 1;
-                    System.out.println("You choose artist " + artists.get(opt));
+                    System.out.println("You choose " + inputList.get(opt));
                     int songNum = 0;
                     for (String songName : songObj.songsAll) {
-                        if(songName.contains(artists.get(opt))){
+                        if(songName.contains(inputList.get(opt))){
                             songNum += 1;
-                            artistsSongsList.add(songName);
+                            requiredOutputList.add(songName);
                             System.out.println("["+songNum+"] "+songDetails(Collections.singletonList(songName),0));
                             //System.out.println("Song info "+artistsSongsList.get(songNum-1));
                         }
                     }
                     System.out.println("Choose the song to play ");
-                    songFile = songDetails(artistsSongsList,4);
-                    songImg = songDetails(artistsSongsList, 5);
-                    playMusic(getSongToPlay(artistsSongsList,songFile, songImg));
+                    songFile = songDetails(requiredOutputList,4);
+                    songImg = songDetails(requiredOutputList, 5);
+                    playMusic(getSongToPlay(requiredOutputList,songFile, songImg));
                     correct = true;}
             } catch (Exception e) {
                 System.out.println(displayWarningMsg("Please enter the valid input to play the song "));
             }
         }
-
     }
     protected static void displayIndividualAlbumName(){
+        Songs songObj = new Songs();
+        List<String> albumName;
+        albumName = songDetails(songObj.songsAll,2);
+        Collections.sort(albumName);
+        List<String> albums;
+        albums = displayArtistsOrAlbums(albumName);
+        System.out.println("Choose the artist ");
+        //Taking input from user
+        takingArtistOrAlbumNameAsUserInput(albums);
         System.out.println("Albums");
     }
     protected static void displayIndividualGenre(){
