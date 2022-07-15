@@ -79,12 +79,12 @@ public class Songs {
         artistName = songDetails(songObj.songsAll,1);
         Collections.sort(artistName);
         List<String> artists;
-        artists = displayArtistsOrAlbums(artistName);
+        artists = displayArtistsOrAlbumsOrGenre(artistName);
         System.out.println("Choose the artist ");
         //Taking input from user
-        takingArtistOrAlbumNameAsUserInput(artists);
+        takingArtistOrAlbumNameOrGenreAsUserInput(artists);
     }
-    private static List<String> displayArtistsOrAlbums(List<String> displayName){
+    private static List<String> displayArtistsOrAlbumsOrGenre(List<String> displayName){
         Collections.sort(displayName);
         List<String> requiredList = new ArrayList<>();
         int num = 0;
@@ -97,9 +97,10 @@ public class Songs {
             num +=1;
             System.out.println("["+num+"]"+" "+name);
         }
+        System.out.println("Press 0 to go back to main menu.");
         return requiredList;
     }
-    private static void takingArtistOrAlbumNameAsUserInput(List<String> inputList){
+    private static void takingArtistOrAlbumNameOrGenreAsUserInput(List<String> inputList){
         Songs songObj = new Songs();
         List<String> requiredOutputList = new ArrayList<>();
         List<String> songFile;
@@ -138,13 +139,22 @@ public class Songs {
         albumName = songDetails(songObj.songsAll,2);
         Collections.sort(albumName);
         List<String> albums;
-        albums = displayArtistsOrAlbums(albumName);
+        albums = displayArtistsOrAlbumsOrGenre(albumName);
         System.out.println("Choose the artist ");
         //Taking input from user
-        takingArtistOrAlbumNameAsUserInput(albums);
+        takingArtistOrAlbumNameOrGenreAsUserInput(albums);
         System.out.println("Albums");
     }
     protected static void displayIndividualGenre(){
+        Songs songObj = new Songs();
+        List<String> genreName;
+        genreName = songDetails(songObj.songsAll,3);
+        Collections.sort(genreName);
+        List<String> genreList;
+        genreList = displayArtistsOrAlbumsOrGenre(genreName);
+        System.out.println("Choose the genre ");
+        //Taking input from user
+        takingArtistOrAlbumNameOrGenreAsUserInput(genreList);
         System.out.println("Genres");
     }
 
