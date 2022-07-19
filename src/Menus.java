@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static Spotifoo.src.Songs.*;
+import static Spotifoo.src.User.userSearchSongInput;
 
 public class Menus {
 
@@ -37,10 +38,11 @@ public class Menus {
         return getSongToPlay(songObj.songsNames,songFile,songImg);
     }
 
-    public void artistMenuDisplayOption(){
+    private void artistMenuDisplayOption(){
         System.out.println("This program is for displaying artist names");
         displayArtistName();
     }
+
 
     public void mainMenu(int input){
         switch(input) {
@@ -59,10 +61,10 @@ public class Menus {
                 displayIndividualGenre();
                 break;
             case 5:
-                System.out.println("Search");
+                userSearchSongInput();
                 break;
             default:
-                System.out.println("Please enter the number between 0 to 5");
+                System.out.println("Please enter the number between 1 to 5");
                 break;
         }
     }
