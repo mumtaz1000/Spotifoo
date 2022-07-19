@@ -36,6 +36,22 @@ public class Display {
             System.out.println("["+num+"] "+singleSong);
         }
     }
+    protected static List<String> displayArtistsOrAlbumsOrGenre(List<String> displayName){
+        Collections.sort(displayName);
+        List<String> requiredList = new ArrayList<>();
+        int num = 0;
+        for (String name: displayName) {
+            if(!requiredList.contains(name)){
+                requiredList.add(name);
+            }
+        }
+        for (String name: requiredList) {
+            num +=1;
+            System.out.println("["+num+"]"+" "+name);
+        }
+        System.out.println("Press 0 to go back to main menu.");
+        return requiredList;
+    }
     protected static void displayIndividualArtistOrAlbumOrGenreName(int option, String displayOption){
         Songs songObj = new Songs();
         List<String> requiredList;
