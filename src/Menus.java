@@ -1,10 +1,9 @@
 package Spotifoo.src;
 
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
-import static Spotifoo.src.Songs.*;
+import static Spotifoo.src.Display.displayIndividualArtistOrAlbumOrGenreName;
+import static Spotifoo.src.Songs.songMenuOption;
 import static Spotifoo.src.User.userSearchSongInput;
 
 public class Menus {
@@ -15,33 +14,6 @@ public class Menus {
     public static final String txtFilePath = filePath("data.txt");
     public static final String songFilePath = filePath("songs").concat("\\");
     public static final String songImagePath = filePath("albums").concat("\\");
-    public void mainMenuDisplayOption(){
-        System.out.println("Main menu options:");
-        System.out.println("[1] Songs");
-        System.out.println("[2] Artists");
-        System.out.println("[3] Albums");
-        System.out.println("[4] Genres");
-        System.out.println("[5] Search");
-        //System.out.println("Press [0] to exit");
-        System.out.println("Choose an option and press enter: ");
-    }
-    protected static List<String> songsMenuDisplayOption(){
-        System.out.println("Songs display menu");
-        Songs songObj = new Songs();
-        displayIndividualSongElement(songObj.songsNames);
-        System.out.println("Enter the song number which you want to play.");
-        System.out.println("Press [0] to exit");
-        List<String> songFile = new ArrayList<>();
-        songFile = songDetails(songObj.songsAll,4);
-        List<String> songImg = new ArrayList<>();
-        songImg = songDetails(songObj.songsAll, 5);
-        return getSongToPlay(songObj.songsNames,songFile,songImg);
-    }
-
-    private void artistMenuDisplayOption(){
-        System.out.println("This program is for displaying artist names");
-        displayArtistName();
-    }
 
 
     public void mainMenu(int input){
@@ -52,13 +24,13 @@ public class Menus {
                 songMenuOption();
                 break;
             case 2:
-                artistMenuDisplayOption();
+                displayIndividualArtistOrAlbumOrGenreName(1, "artist");
                 break;
             case 3:
-                displayIndividualAlbumName();
+                displayIndividualArtistOrAlbumOrGenreName(2, "album");
                 break;
             case 4:
-                displayIndividualGenre();
+                displayIndividualArtistOrAlbumOrGenreName(3, "genre");
                 break;
             case 5:
                 userSearchSongInput();

@@ -2,12 +2,15 @@ package Spotifoo.src;
 
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.*;
 
+import static Spotifoo.src.Display.displayWarningMsg;
+import static Spotifoo.src.Display.songsMenuDisplayOption;
 import static Spotifoo.src.FileSystem.readFile;
-import static Spotifoo.src.Main.displayWarningMsg;
-import static Spotifoo.src.Main.mainMenuSection;
+import static Spotifoo.src.Main.*;
 import static Spotifoo.src.Menus.*;
 import static Spotifoo.src.User.validateUserInput;
 
@@ -21,13 +24,7 @@ public class Songs {
         System.out.println("Song to play from menu " + filename);
         playMusic(songToPlay);
     }
-    protected static void displayIndividualSongElement(List<String> list){
-        int num = 0;
-        for(String singleSong: list){
-            num +=1;
-            System.out.println("["+num+"] "+singleSong);
-        }
-    }
+
     protected static List<String> songDetails(List<String> listOfSongs, int option){
         List<String> requiredData = new ArrayList<>();
         for (String song: listOfSongs) {
@@ -73,18 +70,8 @@ public class Songs {
             System.out.println(displayWarningMsg("Error while playing mp3 file "+e));
         }
     }
-    protected static void displayArtistName(){
-        Songs songObj = new Songs();
-        List<String> artistName;
-        artistName = songDetails(songObj.songsAll,1);
-        Collections.sort(artistName);
-        List<String> artists;
-        artists = displayArtistsOrAlbumsOrGenre(artistName);
-        System.out.println("Choose the artist ");
-        //Taking input from user
-        takingArtistOrAlbumNameOrGenreAsUserInput(artists);
-    }
-    private static List<String> displayArtistsOrAlbumsOrGenre(List<String> displayName){
+
+    protected static List<String> displayArtistsOrAlbumsOrGenre(List<String> displayName){
         Collections.sort(displayName);
         List<String> requiredList = new ArrayList<>();
         int num = 0;
@@ -100,7 +87,7 @@ public class Songs {
         System.out.println("Press 0 to go back to main menu.");
         return requiredList;
     }
-    private static void takingArtistOrAlbumNameOrGenreAsUserInput(List<String> inputList){
+    protected static void takingArtistOrAlbumNameOrGenreAsUserInput(List<String> inputList){
         Songs songObj = new Songs();
         List<String> requiredOutputList = new ArrayList<>();
         List<String> songFile;
@@ -133,30 +120,7 @@ public class Songs {
             }
         }
     }
-    protected static void displayIndividualAlbumName(){
-        Songs songObj = new Songs();
-        List<String> albumName;
-        albumName = songDetails(songObj.songsAll,2);
-        Collections.sort(albumName);
-        List<String> albums;
-        albums = displayArtistsOrAlbumsOrGenre(albumName);
-        System.out.println("Choose the artist ");
-        //Taking input from user
-        takingArtistOrAlbumNameOrGenreAsUserInput(albums);
-        System.out.println("Albums");
-    }
-    protected static void displayIndividualGenre(){
-        Songs songObj = new Songs();
-        List<String> genreName;
-        genreName = songDetails(songObj.songsAll,3);
-        Collections.sort(genreName);
-        List<String> genreList;
-        genreList = displayArtistsOrAlbumsOrGenre(genreName);
-        System.out.println("Choose the genre ");
-        //Taking input from user
-        takingArtistOrAlbumNameOrGenreAsUserInput(genreList);
-        System.out.println("Genres");
-    }
+
 
 
 }

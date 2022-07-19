@@ -1,11 +1,10 @@
 package Spotifoo.src;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import static Spotifoo.src.Main.displayWarningMsg;
+import static Spotifoo.src.Display.displayWarningMsg;
 import static Spotifoo.src.Main.mainMenuSection;
 
 public class User {
@@ -30,89 +29,80 @@ public class User {
     }
     protected static void userSearchSongInput(){
         Songs songObj = new Songs();
-        List<String> displayName = songObj.songsNames;
         Scanner searchSongInput = new Scanner(System.in);
-        List<String> requiredList = new ArrayList<>();
         System.out.println("Enter the song to search ");
         String userInput = searchSongInput.nextLine();
-        try{
-            if(userInput.equals("0")){
-                mainMenuSection();
-            } else {
-                System.out.println("You entered "+userInput);
-                for (String name: songObj.songsNames) {
-                    System.out.println("Song searching "+name);
+        List<String> searchedSong = new ArrayList<>();
+        if (userInput.length() != 0){
+            try{
+                if(userInput.equals("0")){
+                    mainMenuSection();
+                } else {
+                    System.out.println("You entered "+userInput);
 
-                    List<Integer> foundIndexes = performKMPSearch(name, userInput);
-
-                    if (foundIndexes.isEmpty()) {
-                        System.out.println("Pattern not found in the given text String");
-                    } else {
-                        System.out.println("Pattern found in the given text String at positions: ");
+                    for (String name: songObj.songsNames) {
+                       // System.out.println("Song searching "+name);
+                        if(!KMPSearch(name, userInput).isEmpty()){
+                            searchedSong.add(name);
+                        }
                     }
+                    System.out.println("Required search songs are "+searchedSong);
 
-
-                    if(name.contains(userInput)){
-                        requiredList.add(name);
-                        System.out.println("Song name "+name);
-                    }
                 }
-
+            }
+            catch(Exception e){
+                System.out.println(displayWarningMsg("Please enter the valid input"));
             }
         }
-        catch(Exception e){
-            System.out.println(displayWarningMsg("Please enter the valid input"));
-        }
+
     }
-    public static int[] compilePatternArray(String pattern) {
-        int patternLength = pattern.length();
+   private static int[] patternArray(String searchString){
+        int patternLength = searchString.length();
         int len = 0;
         int i = 1;
-        int[] compliedPatternArray = new int[patternLength];
-        compliedPatternArray[0] = 0;
+        int[] compiledPatternArray = new int[patternLength];
+        compiledPatternArray[0] = 0;
 
-        while (i < patternLength) {
-            if (pattern.charAt(i) == pattern.charAt(len)) {
+        while(i < searchString.length()){
+            if(searchString.charAt(i) == searchString.charAt(len)){
                 len++;
-                compliedPatternArray[i] = len;
+                compiledPatternArray[i] = len;
                 i++;
             } else {
-                if (len != 0) {
-                    len = compliedPatternArray[len - 1];
+                if(len != 0){
+                    len = compiledPatternArray[len - 1];
                 } else {
-                    compliedPatternArray[i] = len;
+                    compiledPatternArray[i] = len;
                     i++;
                 }
             }
         }
-        System.out.println("Compiled Pattern Array " + Arrays.toString(compliedPatternArray));
-        return compliedPatternArray;
-    }
-    public static List<Integer> performKMPSearch(String text, String pattern) {
-        int[] compliedPatternArray = compilePatternArray(pattern);
+       //System.out.println("Compiled Pattern Array "+ Arrays.toString(compiledPatternArray));
+        return compiledPatternArray;
+   }
+   private static List<Integer> KMPSearch(String song, String searchInput){
+        int[] compiledPatternArray = patternArray(searchInput);
+       int songIndex = 0;
+        int searchInputIndex = 0;
 
-        int textIndex = 0;
-        int patternIndex = 0;
-
-        List<Integer> foundIndexes = new ArrayList<>();
-
-        while (textIndex < text.length()) {
-            if (pattern.charAt(patternIndex) == text.charAt(textIndex)) {
-                patternIndex++;
-                textIndex++;
-            }
-            if (patternIndex == pattern.length()) {
-                foundIndexes.add(textIndex - patternIndex);
-                patternIndex = compliedPatternArray[patternIndex - 1];
-            }
-
-            else if (textIndex < text.length() && pattern.charAt(patternIndex) != text.charAt(textIndex)) {
-                if (patternIndex != 0)
-                    patternIndex = compliedPatternArray[patternIndex - 1];
-                else
-                    textIndex = textIndex + 1;
-            }
-        }
+       List<Integer> foundIndexes = new ArrayList<>();
+       while(songIndex < song.length()){
+           if(searchInput.charAt(searchInputIndex) == song.charAt(songIndex)) {
+               searchInputIndex++;
+               songIndex++;
+           }
+           if(searchInputIndex == searchInput.length()){
+               foundIndexes.add(songIndex - searchInputIndex);
+               searchInputIndex = compiledPatternArray[searchInputIndex - 1];
+           }
+           else if (songIndex < song.length() && searchInput.charAt(searchInputIndex) != song.charAt(songIndex)){
+               if(searchInputIndex != 0){
+                   searchInputIndex = compiledPatternArray[searchInputIndex - 1];
+               } else {
+                   songIndex = songIndex + 1;
+               }
+           }
+       }
         return foundIndexes;
-    }
+   }
 }
