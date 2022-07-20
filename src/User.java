@@ -38,11 +38,12 @@ public class User {
                 if(userInput.equals("0")){
                     mainMenuSection();
                 } else {
-                    System.out.println("You entered "+userInput);
+
+                    System.out.println("You entered "+trimLowerCaseString(userInput));
 
                     for (String name: songObj.songsNames) {
                        // System.out.println("Song searching "+name);
-                        if(!KMPSearch(name, userInput).isEmpty()){
+                        if(!KMPSearch(trimLowerCaseString(name), trimLowerCaseString(userInput)).isEmpty()){
                             searchedSong.add(name);
                         }
                     }
@@ -55,6 +56,9 @@ public class User {
             }
         }
 
+    }
+    private static String trimLowerCaseString(String inputString){
+        return inputString.toLowerCase().replaceAll(" ","");
     }
    private static int[] patternArray(String searchString){
         int patternLength = searchString.length();
