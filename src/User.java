@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import static Spotifoo.src.Display.displayWarningMsg;
 import static Spotifoo.src.Main.mainMenuSection;
+import static Spotifoo.src.Songs.*;
 
 public class User {
     protected static int validateUserInput(int minUserInput,int maxUserInput){
@@ -33,6 +34,7 @@ public class User {
         System.out.println("Enter the song to search ");
         String userInput = searchSongInput.nextLine();
         List<String> searchedSong = new ArrayList<>();
+        List<String> singleSongList = new ArrayList<>();
         if (userInput.length() != 0){
             try{
                 if(userInput.equals("0")){
@@ -47,7 +49,29 @@ public class User {
                             searchedSong.add(name);
                         }
                     }
-                    System.out.println("Required search songs are "+searchedSong);
+
+                    displayArtistsOrAlbumsOrGenre(searchedSong);
+                    boolean correct = false;
+                    while( !correct ) {
+                        try {
+                            int opt = validateUserInput(0, searchedSong.size());
+                            if (opt == 0) {
+                                mainMenuSection();
+                            } else {
+                                opt -= 1;
+                                singleSongList.add(searchedSong.get(opt));
+                                System.out.println("You choose " + singleSongList.get(0));
+                                System.out.println("List "+singleSongList);
+                                /*List<String> songFile = songDetails(singleSongList,4);
+                                System.out.println("Song file "+songFile);
+                                List<String> songImg = songDetails(singleSongList, 5);
+                                System.out.println("Song image "+songImg);
+                                playMusic(getSongToPlay(singleSongList,songFile, songImg));*/
+                                correct = true;}
+                        } catch (Exception e) {
+                            System.out.println(displayWarningMsg("Please enter the valid input to play the song "));
+                        }
+                    }
 
                 }
             }
