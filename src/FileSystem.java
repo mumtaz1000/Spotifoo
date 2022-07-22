@@ -6,6 +6,8 @@ import java.util.*;
 
 public class FileSystem {
     protected static List<String> readFile(String filename) {
+        //This function is used to read the data from data.txt
+        //and return a list containing all songs along with their data
         ArrayList<String> listOfSongs = new ArrayList<>();
 
         try {
