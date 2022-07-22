@@ -35,6 +35,18 @@ public class Songs {
         }
         return requiredData;
     }
+
+
+    protected static List<String> songDetails(String songString){
+        List<String> requiredData = new ArrayList<>();
+        String string = songString;
+        String[] parts = string.split(",");
+        requiredData.add(parts[0]);
+        requiredData.add(parts[4]);
+        requiredData.add(parts[5]);
+        return requiredData;
+    }
+
     protected static List<String> getSongToPlay(List<String> songsList,List<String> songFile, List<String> songImg){
         List<String> songToPlay = new ArrayList<>();
         boolean correctSong = false;

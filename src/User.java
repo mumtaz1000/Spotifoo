@@ -34,45 +34,35 @@ public class User {
         System.out.println("Enter the song to search ");
         String userInput = searchSongInput.nextLine();
         List<String> searchedSong = new ArrayList<>();
-        List<String> singleSongList = new ArrayList<>();
+
         if (userInput.length() != 0){
             try{
                 if(userInput.equals("0")){
                     mainMenuSection();
                 } else {
-
                     System.out.println("You entered "+trimLowerCaseString(userInput));
-
                     for (String name: songObj.songsNames) {
                        // System.out.println("Song searching "+name);
                         if(!KMPSearch(trimLowerCaseString(name), trimLowerCaseString(userInput)).isEmpty()){
                             searchedSong.add(name);
                         }
                     }
-
                     displayArtistsOrAlbumsOrGenre(searchedSong);
-                    boolean correct = false;
-                    while( !correct ) {
-                        try {
-                            int opt = validateUserInput(0, searchedSong.size());
-                            if (opt == 0) {
-                                mainMenuSection();
-                            } else {
-                                opt -= 1;
-                                singleSongList.add(searchedSong.get(opt));
-                                System.out.println("You choose " + singleSongList.get(0));
-                                System.out.println("List "+singleSongList);
-                                /*List<String> songFile = songDetails(singleSongList,4);
-                                System.out.println("Song file "+songFile);
-                                List<String> songImg = songDetails(singleSongList, 5);
-                                System.out.println("Song image "+songImg);
-                                playMusic(getSongToPlay(singleSongList,songFile, songImg));*/
-                                correct = true;}
-                        } catch (Exception e) {
-                            System.out.println(displayWarningMsg("Please enter the valid input to play the song "));
+                    System.out.println("Choose the song which you want to play.");
+                    //System.out.println(searchedSong.size());
+                    if(searchedSong.size() != 0){
+                        if(searchedSong.size()>1){
+                            playMusic(choosingSongFromSearchResul(searchedSong));
+                        }
+                        else {
+                            String song = searchRequiredSongFromAllSongsList(searchedSong, 0);
+                            System.out.println("Single song output "+songDetails(song));
+                            playMusic(songDetails(song));
                         }
                     }
-
+                    else {
+                        System.out.println("Search result not found!!!");
+                    }
                 }
             }
             catch(Exception e){
@@ -81,8 +71,39 @@ public class User {
         }
 
     }
+    private static List<String> choosingSongFromSearchResul(List<String> searchedSong){
+        String songOutputResult = null;
+        boolean correct = false;
+        while( !correct ) {
+            try {
+                int opt = validateUserInput(0, searchedSong.size());
+                if (opt == 0) {
+                    mainMenuSection();
+                } else {
+                    opt -= 1;
+                    System.out.println("You choose " + searchedSong.get(opt));
+                    songOutputResult = searchRequiredSongFromAllSongsList(searchedSong,opt);
+                    correct = true;}
+            } catch (Exception e) {
+                System.out.println(displayWarningMsg("Please enter the valid input to play the song "));
+            }
+        }
+        return songDetails(songOutputResult);
+    }
     private static String trimLowerCaseString(String inputString){
         return inputString.toLowerCase().replaceAll(" ","");
+    }
+    private static String searchRequiredSongFromAllSongsList(List<String> searchedSong, int opt){
+        Songs songObj = new Songs();
+        String songOutputResult = null;
+        for(String searchSong : songObj.songsAll){
+            if(searchSong.contains((searchedSong.get(opt)))){
+                songOutputResult = searchSong;
+                System.out.println("Search found!! "+searchSong);
+                System.out.println("Checking output "+songDetails(searchSong));
+            }
+        }
+        return songOutputResult;
     }
    private static int[] patternArray(String searchString){
         int patternLength = searchString.length();
