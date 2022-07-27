@@ -23,48 +23,48 @@ public class User {
         }
         return input;
     }
-    protected static void userSearchSongInput(){
+    protected static void userSearchSongInput() {
         Songs songObj = new Songs();
         Scanner searchSongInput = new Scanner(System.in);
-        System.out.println("Enter the song to search ");
+        System.out.println("Enter the song to search or 0 to go back to main menu");
         String userInput = searchSongInput.nextLine();
         List<String> searchedSong = new ArrayList<>();
-
-        if (userInput.length() != 0){
-            try{
-                if(userInput.equals("0")){
+        boolean correctInput = false;
+        while (correctInput != true) {
+        if (userInput.length() != 0) {
+            try {
+                if (userInput.equals("0")) {
                     Main.mainMenuSection();
                 } else {
-                    System.out.println("You entered "+trimLowerCaseString(userInput));
-                    for (String name: songObj.songsNames) {
-                       // System.out.println("Song searching "+name);
-                        if(!KMPSearch(trimLowerCaseString(name), trimLowerCaseString(userInput)).isEmpty()){
+                    System.out.println("You entered " + trimLowerCaseString(userInput));
+                    for (String name : songObj.songsNames) {
+                        // System.out.println("Song searching "+name);
+                        if (!KMPSearch(trimLowerCaseString(name), trimLowerCaseString(userInput)).isEmpty()) {
                             searchedSong.add(name);
                         }
                     }
-                    if(searchedSong.size() != 0){
+                    if (searchedSong.size() != 0) {
                         Songs.displayArtistsOrAlbumsOrGenre(searchedSong);
                         System.out.println("Choose the song which you want to play.");
                         //System.out.println(searchedSong.size());
-                        if(searchedSong.size()>1){
+                        if (searchedSong.size() > 1) {
                             Songs.playMusic(choosingSongFromSearchResult(searchedSong));
-                        }
-                        else {
+                        } else {
                             String song = searchRequiredSongFromAllSongsList(searchedSong, 0);
-                            System.out.println("Single song output "+ Songs.songDetails(song));
+                            System.out.println("Single song output " + Songs.songDetails(song));
                             Songs.playMusic(Songs.songDetails(song));
                         }
-                    }
-                    else {
+                    } else {
                         System.out.println("Search result not found!!!");
                     }
+                    correctInput = true;
                 }
-            }
-            catch(Exception e){
-                System.out.println(Display.displayWarningMsg("Please enter the valid input"));
+            } catch (Exception e) {
+                System.out.println(Display.displayWarningMsg("Please enter the valid input while searching a song"));
+                userSearchSongInput();
             }
         }
-
+    }
     }
     private static List<String> choosingSongFromSearchResult(List<String> searchedSong){
         String songOutputResult = null;
